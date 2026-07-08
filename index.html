@@ -418,37 +418,11 @@ let clickCount = 0;
 let triggeredMilestones = new Set();
 
 const milestones = [
-  // 隐藏提示
-  { count: 1,  emoji: '👀', title: '第一次', desc: '好的，你开始发疯了。这才第一次，路还长。' },
-  // 温和摇晃
-  { count: 5,  emoji: '🙃', title: '有点意思了', desc: '你已经按了 5 次。手不累吗？' },
-
-  // ★ 10次：剧烈摇晃 + 弹窗
-  { count: 10, emoji: '😵', title: '你还好吗？', desc: '屏幕为什么在晃？哦，是你在晃。\n你已经按了 10 次了，停得下来吗？' },
-
-  // 闪烁 + 暗红滤镜
-  { count: 20, emoji: '🫨', title: '20 次了', desc: '你还好吗？真的还好吗？\n屏幕闪得比我的精神状态还不稳定。' },
-
-  // 25次：哭哭表情雨
-  { count: 25, emoji: '😭', title: '泪崩时刻', desc: '25 次了！下起了 emoji 泪雨 💧\n哭吧哭吧不是罪。' },
-
-  // 42次：生命宇宙以及一切的答案
-  { count: 42, emoji: '🤯', title: '答案是 42', desc: '你已经按了 42 次。\n生命、宇宙以及一切的答案——就是发疯。' },
-
   // ★ 50次：全屏倒置 + 镜像
   { count: 50, emoji: '🔄', title: '世界颠倒', desc: '50 次了，天翻地覆。\n倒过来看，一切都合理了。持续 3 秒，稳住。' },
 
-  // 69次
-  { count: 69, emoji: '😏', title: '（自动消音）', desc: '69。\n嗯。\n你懂的。\n我们继续。' },
-
-  // 80次：满屏血红
-  { count: 80, emoji: '🩸', title: '血压拉满', desc: '80 次了，血压已经爆表。\n红色预警：你已进入狂暴状态。' },
-
   // ★ 100次：五彩纸屑 + 称号
   { count: 100, emoji: '🎊', title: '🎉 恭喜你！', desc: '已获得「发疯大师」称号 🏆\n你成功按了 100 次发泄按钮。\n建议：去休息一下，或者再按 100 次。' },
-
-  // 120次
-  { count: 120, emoji: '💀', title: '你已经死了', desc: '（精神意义上）\n120 次了，你的手指还活着吗？' },
 
   // 150次
   { count: 150, emoji: '👹', title: '终极疯魔', desc: '150 次！你已经超越了发疯的范畴。\n你现在就是台风本人。' },
@@ -465,38 +439,6 @@ function checkMilestones(count) {
 
       // 特殊效果 —— 根据次数触发不同的全屏特效
       switch (m.count) {
-        case 5:
-          // 轻微晃一下
-          document.body.classList.add('shaking');
-          setTimeout(() => document.body.classList.remove('shaking'), 700);
-          break;
-
-        case 10:
-          // 剧烈摇晃 + 弹窗
-          document.body.classList.add('shaking');
-          setTimeout(() => document.body.classList.remove('shaking'), 700);
-          showPopup(m.emoji, m.title, m.desc);
-          break;
-
-        case 20:
-          // 闪烁 + 暗红滤镜
-          document.body.classList.add('flicker', 'blood-flash');
-          setTimeout(() => {
-            document.body.classList.remove('flicker', 'blood-flash');
-          }, 1600);
-          showPopup(m.emoji, m.title, m.desc);
-          break;
-
-        case 25:
-          // emoji 泪雨
-          triggerCryingRain();
-          showPopup(m.emoji, m.title, m.desc);
-          break;
-
-        case 42:
-          showPopup(m.emoji, m.title, m.desc);
-          break;
-
         case 50:
           // 全屏倒置 + 镜像 3 秒
           document.body.classList.add('flipped');
@@ -506,28 +448,10 @@ function checkMilestones(count) {
           }, 3000);
           break;
 
-        case 69:
-          showPopup(m.emoji, m.title, m.desc);
-          break;
-
-        case 80:
-          // 血红滤镜
-          document.body.classList.add('blood-flash');
-          setTimeout(() => document.body.classList.remove('blood-flash'), 1600);
-          showPopup(m.emoji, m.title, m.desc);
-          break;
-
         case 100:
           // 五彩纸屑 + 弹窗
           triggerConfetti();
           setTimeout(() => showPopup(m.emoji, m.title, m.desc), 800);
-          break;
-
-        case 120:
-          // 闪烁
-          document.body.classList.add('flicker');
-          setTimeout(() => document.body.classList.remove('flicker'), 900);
-          showPopup(m.emoji, m.title, m.desc);
           break;
 
         case 150:
@@ -547,12 +471,6 @@ function checkMilestones(count) {
             document.body.classList.remove('flipped', 'flicker');
           }, 3500);
           setTimeout(() => showPopup(m.emoji, m.title, m.desc), 800);
-          break;
-
-        default:
-          if (m.count >= 1) {
-            showPopup(m.emoji, m.title, m.desc);
-          }
           break;
       }
       return; // 一次只触发一个彩蛋
