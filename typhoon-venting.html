@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>台风天·发疯时刻</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      min-height: 100vh;
+      background: #1a1a1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      padding: 20px;
+    }
+    .container {
+      text-align: center;
+      max-width: 700px;
+      width: 100%;
+    }
+    .main-text {
+      font-size: clamp(2rem, 8vw, 4.2rem);
+      font-weight: 900;
+      color: #d4d4d4;
+      line-height: 1.3;
+      margin-bottom: 50px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 40px rgba(100,100,100,0.15);
+    }
+    .btn {
+      display: inline-block;
+      padding: 18px 56px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #e0e0e0;
+      background: #2c2c2c;
+      border: 1.5px solid #444;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 3px;
+      font-family: inherit;
+      user-select: none;
+    }
+    .btn:hover {
+      background: #3a3a3a;
+      border-color: #666;
+      transform: scale(1.03);
+    }
+    .btn:active {
+      transform: scale(0.96);
+    }
+    .output {
+      margin-top: 50px;
+      min-height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.15s ease;
+    }
+    .output.fade {
+      opacity: 0;
+    }
+    .quote {
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      font-weight: 700;
+      color: #a0a0a0;
+      line-height: 1.5;
+      padding: 20px 30px;
+      background: #222;
+      border-left: 4px solid #555;
+      border-radius: 4px;
+      max-width: 100%;
+      word-break: break-word;
+    }
+    .sub-quote {
+      font-size: 1rem;
+      color: #555;
+      margin-top: 12px;
+    }
+    /* 落款小字 */
+    .footer {
+      margin-top: 80px;
+      font-size: 0.75rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="main-text">🌪️ 今天磁场不对，<br>我想发疯。</div>
+
+  <button class="btn" id="ventBtn">💥 发泄一下</button>
+
+  <div class="output" id="output"></div>
+
+  <div class="footer">台风还没来，我先疯了</div>
+</div>
+
+<script>
+const quotes = [
+  "想把这台风扔出去。",
+  "落地窗你挺住，我也在挺。",
+  "我不想思考了，脑子进水了。",
+  "这风比我前任还纠缠不清。",
+  "人类为什么要上班？台风都知道休息。",
+  "世界是一个巨大的台风。",
+  "暴雨：你还好吗？ 我：不好。",
+  "我现在就是一株被吹散的蒲公英。",
+  "别跟我说话，我在和台风冷战。",
+  "天漏了，我的精神状态也漏了。",
+  "如果这就是世界末日，能不能快点。",
+  "风好大，把我仅存的那点理智也吹走了。",
+  "我觉得我现在能和这台风打一架。",
+  "警报：我本人已进入疯癫模式。",
+  "明天不上班——这是台风帮我做的决定。",
+  "我的沉默震耳欲聋，比台风还吵。",
+  "今天不适合做人，适合做一棵被吹倒的树。",
+  "老天爷是在发脾气，那我也发一个。",
+  "没有一条短信比台风预警更让我心凉。",
+  "这个天气，适合躺着等世界毁灭。",
+  "烦死了！！！！！！！！！！",
+  "都给我滚蛋！！！！",
+  "大傻逼！！！",
+  "我现在的耐心，比落地窗上的胶带还脆弱。",
+  "全部毁灭吧，赶紧的。",
+  "滚啊！！！！！！！！！",
+  "今天谁都别惹我，台风也不行。",
+  "艹，这日子一天都过不下去了。",
+  "你问我怎么了？我也不知道，就是想骂人。",
+  "闭嘴闭嘴闭嘴闭嘴闭嘴闭嘴闭嘴闭嘴。",
+  "我现在就是一台行走的暴躁机器。",
+  "外面在刮台风，里面在刮我。",
+  "今天情绪管理已下线，请稍后再联系。",
+  "我觉得我比台风还疯，凭什么它上热搜。",
+  "别跟我讲道理，我今天不讲道理。",
+  "爆炸吧世界，我已经准备好了。",
+  "累了，毁灭吧，随便。",
+  "我现在看什么都像出气筒。",
+  "社交功能已关闭，有事烧纸。",
+  "我很好。我装的。",
+  "救命，但我也不知道我在喊谁救命。",
+  "滚蛋滚蛋滚蛋滚蛋滚蛋。",
+  "滚！！！！！！！！",
+  "滚啊！！！！",
+  "滚！！！",
+  "爬！！！！",
+  "滚远点！！！！！",
+  "你谁啊？？？滚。",
+  "操！！！！！！",
+  "啊！！！！！！！！！！",
+  "啊啊啊啊啊啊啊！！",
+  "啊啊啊啊啊啊啊啊啊啊！！！",
+  "啊啊啊啊啊啊啊啊啊啊啊啊啊啊！！",
+  "烦死了滚啊！！",
+  "都给我爬！！",
+  "别烦我！！",
+  "毁灭吧！！",
+  "淦！！",
+  "滚！！！不想说话。",
+  "滚犊子！！",
+  "哪凉快哪呆着去！！",
+  "gun！！",
+  "人活着到底为了什么？？滚！！",
+  "今天我不想当人。",
+  "闭嘴滚蛋一条龙。",
+  "莫挨老子！！",
+  "我他妈心态崩了。",
+  "😡😡😡😡😡",
+  "此时此刻只想对全世界说：滚。",
+  "不要跟我说话，也不要跟台风说话。",
+  "已疯，勿扰。",
+  "生而为人，我很暴躁。",
+  "今天没有理智这个东西。",
+  "我就是个炸弹，别碰我。",
+  "发疯结束。并没有。继续发。",
+  "心情：雷暴预警。",
+];
+
+const btn = document.getElementById('ventBtn');
+const output = document.getElementById('output');
+
+btn.addEventListener('click', () => {
+  output.classList.add('fade');
+  setTimeout(() => {
+    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+    output.innerHTML = `<div class="quote">${quote}</div>`;
+    output.classList.remove('fade');
+  }, 150);
+});
+
+// 键盘快捷键：按空格发泄
+document.addEventListener('keydown', (e) => {
+  if (e.key === ' ' && e.target === document.body) {
+    e.preventDefault();
+    btn.click();
+  }
+});
+</script>
+</body>
+</html>
