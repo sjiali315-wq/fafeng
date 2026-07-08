@@ -248,6 +248,23 @@
       animation: blood-flash 1.5s ease-in-out;
     }
 
+    /* ----- 鼠标痕迹 "发疯" ----- */
+    .mouse-trail {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9997;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #666;
+      opacity: 0;
+      animation: trail-fade 0.8s ease-out forwards;
+      user-select: none;
+    }
+    @keyframes trail-fade {
+      0% { opacity: 0.8; transform: scale(0.8) rotate(0deg); }
+      100% { opacity: 0; transform: scale(1.6) rotate(30deg) translateY(-30px); }
+    }
+
     /* ----- 哭泣 emoji 雨 ----- */
     .crying-rain {
       position: fixed;
@@ -638,6 +655,30 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     btn.click();
   }
+});
+
+// ==================== 鼠标痕迹：发疯字样 ====================
+const trailChars = ['发', '疯', '💥', '🌪️', '😡'];
+let trailThrottle = 0;
+
+document.addEventListener('mousemove', (e) => {
+  const now = Date.now();
+  if (now - trailThrottle < 40) return; // 节流，避免太多
+  trailThrottle = now;
+
+  const el = document.createElement('div');
+  el.className = 'mouse-trail';
+  el.textContent = trailChars[Math.floor(Math.random() * trailChars.length)];
+  el.style.left = (e.clientX - 10) + 'px';
+  el.style.top = (e.clientY - 10) + 'px';
+
+  // 随机一点颜色变化
+  const hues = [0, 30, 200, 300, 0];
+  el.style.color = `hsl(${hues[Math.floor(Math.random() * hues.length)]}, 30%, 45%)`;
+  el.style.fontSize = (Math.random() * 8 + 14) + 'px';
+
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 900);
 });
 </script>
 </body>
